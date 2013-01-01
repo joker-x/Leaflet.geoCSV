@@ -14,11 +14,18 @@
 		<!-- GeoCSV: https://github.com/joker-x/Leaflet.geoCSV -->
 		<script src="../../leaflet.geocsv-src.js"></script>
 
+		<!-- CodeMirror -->
+		<link rel="stylesheet" href="../../lib/codemirror/codemirror.css">
+		<script src="../../lib/codemirror/codemirror.js"></script>
+		<script src="../../lib/codemirror/util/matchbrackets.js"></script>
+		<script src="../../lib/codemirror/mode-javascript.js"></script>
+
 		<style>	
-		html, body, div {
+		html, body {
 			margin: 0;
 			padding: 0;
 			font-family: Arial, sans-serif;
+			background-color: #eee;
 		}
 		a {
 			text-decoration: none;
@@ -30,14 +37,17 @@
 			margin: 1%;
 			padding: 2%;
 			border: 1px solid #ccc;
+			background-color: #fff;
 		}
 		#mapa {
 			height: 300px;
 		}
 		h1 {
+			margin: 0;
 			text-align: center;
-			padding-bottom: 10px;
+			padding: 10px;
 			border-bottom: 1px solid #ccc;
+			background-color: #fff
 		}
 		h2 {
 			margin-bottom: 5px;
@@ -47,6 +57,11 @@
 			width: 100%;
 			height: 300px;
 			font-family: monospace;
+		}
+		.CodeMirror {
+			border: 1px solid #eee;
+			font-size: 1.2em;
+			height: auto;
 		}
 		</style>
 	</head>
@@ -103,6 +118,12 @@ mapa.addLayer(capaGeoCSV);
 		</div>
 
 <script>
+
+//codemirror
+CodeMirror.fromTextArea(document.getElementById("opciones"), {
+  lineNumbers: true,
+  matchBrackets: true,
+  mode: "text/typescript"});
 
 //altura del mapa al tamaño de los controles, dos columnas iguales
 function ajusta_Altura() {

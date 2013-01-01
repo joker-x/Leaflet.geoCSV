@@ -14,11 +14,18 @@
 		<!-- GeoCSV: https://github.com/joker-x/Leaflet.geoCSV -->
 		<script src="../../leaflet.geocsv-src.js"></script>
 
+		<!-- CodeMirror -->
+		<link rel="stylesheet" href="../../lib/codemirror/codemirror.css">
+		<script src="../../lib/codemirror/codemirror.js"></script>
+		<script src="../../lib/codemirror/util/matchbrackets.js"></script>
+		<script src="../../lib/codemirror/mode-javascript.js"></script>
+
 		<style>	
-		html, body, div {
+		html, body {
 			margin: 0;
 			padding: 0;
 			font-family: Arial, sans-serif;
+			background-color: #eee;
 		}
 		a {
 			text-decoration: none;
@@ -30,14 +37,17 @@
 			margin: 1%;
 			padding: 2%;
 			border: 1px solid #ccc;
+			background-color: #fff;
 		}
 		#mapa {
 			height: 300px;
 		}
 		h1 {
+			margin: 0;
 			text-align: center;
-			padding-bottom: 10px;
+			padding: 10px;
 			border-bottom: 1px solid #ccc;
+			background-color: #fff
 		}
 		h2 {
 			margin-bottom: 5px;
@@ -51,6 +61,12 @@
 		#cargar {
 			margin: 20px 0 0 0;
 			font-size: 1.2em;
+		}
+		.CodeMirror {
+			border: 1px solid #eee;
+			font-size: 1.2em;
+			height: auto;
+			font-family: monospace;
 		}
 		</style>
 	</head>
@@ -74,15 +90,13 @@ L.geoCsv(null,{
     }
     layer.bindPopup(popup);
   }
-});
-			</textarea>
+});</textarea>
 			<h2>CSV</h2>
 			<textarea id="csv">
 48.8566;2.3522;París, capital de Francia
 40.4168;-3.7038;Madrid, capital de España
 41.9015;12.4608;Roma, capital de Italia
-37.9837;23.7293;Atenas, capital de Grecia
-			</textarea>
+37.9837;23.7293;Atenas, capital de Grecia</textarea>
 			<button id="cargar">Cargar datos</button>
 		</div>
 		</div>
@@ -91,6 +105,14 @@ L.geoCsv(null,{
 		</div>
 
 <script>
+
+//codemirror
+var opciones_editor = CodeMirror.fromTextArea(document.getElementById("opciones"), {
+  lineNumbers: true,
+  matchBrackets: true,
+  mode: "text/typescript"});
+
+var csv_editor = CodeMirror.fromTextArea(document.getElementById("csv"), {lineNumbers: true});
 
 //altura del mapa al tamaño de los controles, dos columnas iguales
 function ajusta_Altura() {
