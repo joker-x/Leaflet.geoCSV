@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es">
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+      <!-- Leaflet 0.5: https://github.com/CloudMade/Leaflet-->
+		<link rel="stylesheet" href="../../lib/leaflet.css" />
+		<!--[if lte IE 8]> <link rel="stylesheet" href="../../lib/leaflet.ie.css" />  <![endif]-->  
+		<script src="../../lib/leaflet.js"></script>
+
+		<!-- GeoCSV: https://github.com/joker-x/Leaflet.geoCSV -->
+		<script src="../../leaflet.geocsv-src.js"></script>
+
+		<style>	
+		html, body, div {
+			margin: 0;
+			padding: 0;
+			font-family: Arial, sans-serif;
+		}
+		.caja {
+			display: block;
+			float:left;
+			width: 40%;
+			margin: 1%;
+			padding: 3%;
+			border: 1px solid #ccc;
+		}
+		#mapa {
+			height: 300px;
+		}
+		h1 {
+			text-align: center;
+			padding-bottom: 10px;
+			border-bottom: 1px solid #ccc;
+		}
+		textarea {
+			clear: both;
+			width: 100%;
+			height: 200px;
+			font-family: monospace;
+		}
+		#cargar {
+			float: right;
+			font-size: 1.2em;
+		}
+		</style>
+	</head>
+	<body>
+		<h1>Test de opciones</h1>
+		<div id="controles" class="caja">
+			<h2>Opciones del plugin</h2>
+			<textarea id="opciones">
+L.geoCsv(null,{
+  titles: ['lat', 'lng', 'popup'],
+  fieldSeparator: ';',
+  lineSeparator: '\n',
+  deleteDobleQuotes: true,
+  firstLineTitles: false,
+  onEachFeature: function (feature, layer) {
+    var popup = '';
+    for (var clave in feature.properties) {
+      var title = geo_csv.getPropertyTitle(clave);
+      popup += '<b>'+title+'</b><br />'+feature.properties[clave]+'<br /><br />';
+    }
+    layer.bindPopup(popup);
+  }
+});
+			</textarea>
+			<h2>CSV</h2>
+			<textarea id="csv">
+48.8566;2.3522;París, capital de Francia
+40.4168;-3.7038;Madrid, capital de España
+41.9015;12.4608;Roma, capital de Italia
+37.9837;23.7293;Atenas, capital de Grecia
+			</textarea>
+			<h2><button id="cargar">Cargar datos</button></h2>
+		</div>
+		<div id="mapa" class="caja"></div>
+
+<script>
+
+function ajusta_Altura() {
+  var altura = document.getElementById('controles').offsetHeight;
+  altura = parseInt(altura - (altura*14/100) - 2);
+  document.getElementById('mapa').style.height = altura+"px";
+}
+
+ajusta_Altura();
+
+var mapa = L.map('mapa', {attributionControl:false}).setView([40.46, -3.75], 4);
+
+L.tileLayer('http://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+	maxZoom: 18
+}).addTo(mapa);
+
+var geo_csv = {};
+
+function cargar() {
+  mapa.removeLayer(geo_csv);
+  geo_csv = eval(document.getElementById('opciones').value);
+  geo_csv.addData(document.getElementById('csv').value);
+  mapa.addLayer(geo_csv);
+}
+
+document.getElementById('cargar').addEventListener('click', cargar, false);
+
+</script>
+
+	</body>
+</html>
