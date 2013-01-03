@@ -9,7 +9,7 @@ Plugin para [Leaflet](https://github.com/CloudMade/Leaflet) que permite cargar u
 ----------------
 
 *  **Comodidad**: CSV es un formato abierto muy simple para representar un conjunto de datos en forma de tabla. Cualquier hoja de cálculo, por ejemplo, puede importar/exportar fácilmente a este formato.
-*  **Por razones de peso**: Cuando se trata de representar un conjunto grande de marcadores en un mapa, el fichero geoJSON generado puede ocupar 4 veces más que la misma información contenida en un CSV. Este plugin permite que transmitas el fichero CSV y realiza la conversión al geoJSON equivalente en el lado del cliente, ahorrando ancho de banda a tu servidor y disminuyendo el tiempo de carga de tu página. En este escenario recomendamos usarlo junto al fantástico plugin [MarkerCluster](https://github.com/danzel/Leaflet.markercluster). Ejemplo: [Mapa de las sucursales de Bankia: GeoCSV+MarkerCluster](example/bankia/index.html)
+*  **Por razones de peso**: Cuando se trata de representar un conjunto grande de marcadores en un mapa, el fichero geoJSON generado puede ocupar 4 veces más que la misma información contenida en un CSV. Este plugin permite que transmitas el fichero CSV y realiza la conversión al geoJSON equivalente en el lado del cliente, ahorrando ancho de banda a tu servidor y disminuyendo el tiempo de carga de tu página. En este escenario recomendamos usarlo junto al fantástico plugin [MarkerCluster](https://github.com/danzel/Leaflet.markercluster). Ejemplo: [Mapa de las sucursales de Bankia: GeoCSV+MarkerCluster](http://joker-x.github.com/Leaflet.geoCSV/example/bankia/index.html)
 
 Descarga
 --------
@@ -31,8 +31,8 @@ Además define las siguientes opciones propias:
 Métodos
 -------
 
-*  **getPropertyTitle(**nombre_propiedad**)**: Devuelve el rótulo asociado al nombre de la propiedad que recibe como parámetro.
-*  **getPropertyName(**nombre_título**)**: Devuelve el nombre de la propiedad asociado al título del campo que recibe como parámetro.
+*  **getPropertyTitle(** nombre_propiedad **)**: Devuelve el rótulo asociado al nombre de la propiedad que recibe como parámetro.
+*  **getPropertyName(** nombre_título **)**: Devuelve el nombre de la propiedad asociado al título del campo que recibe como parámetro.
 
 Uso
 ---
@@ -73,7 +73,7 @@ Ejemplos
 --------
 
 En el subdirectorio *example* se encuentran ejemplos completos del uso del plugin:
-*  [Test dinámico de las opciones de configuración](example/options-test/index.html)
-*  [Pasando los datos a través de la URL](example/from-url/index.html)
-*  [Mapa de las sucursales de Bankia: GeoCSV+MarkerCluster](example/bankia/index.html)
+*  [Test dinámico de las opciones de configuración](http://joker-x.github.com/Leaflet.geoCSV/example/options-test/index.html)
+*  [Pasando los datos a través de la URL](http://joker-x.github.com/Leaflet.geoCSV/example/from-url/index.html)
+*  [Mapa de las sucursales de Bankia: GeoCSV+MarkerCluster](http://joker-x.github.com/Leaflet.geoCSV/example/bankia/index.html)
 
