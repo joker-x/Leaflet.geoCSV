@@ -136,10 +136,11 @@ Paso 4:
 Una vez hemos llegado aqui tenemos en la propia web al final de la página dos textarea: uno con el JSON generado y
 otro con el CSV, ya podemos copiar y pegar su contenido a sendos archivos, por ejemplo *bankias.json* y *bankias.csv*.
 
-Nos queda limpiar esos archivos, pues hay muchísimos archivos repetidos. A partir del CSV utilizando uniq, awk, grep
+Nos queda limpiar esos archivos, pues hay muchísimos registros repetidos. A partir del CSV utilizando uniq, awk, grep
 o un lenguaje de script que te resulte cómodo resulta muy fácil eliminar los repetidos o borrar aquellos campos que
 no utilices. Y con el plugin Leaflet.geoCSV podemos cargar los datos una vez limpios directamente.
 
 Datos límpios: http://joker-x.github.com/Leaflet.geoCSV/example/bankia/brankia.csv
+
 Web de ejemplo: http://joker-x.github.com/Leaflet.geoCSV/example/bankia/
 
