@@ -74,7 +74,8 @@
 		<h1><a href="https://github.com/joker-x/Leaflet.geoCSV" title="Repositorio en github">Leaflet.GeoCSV</a>: Test de opciones</h1>
       <div class="caja">
 		<div id="controles">
-			<h2>Opciones del plugin</h2>
+			<p>En esta página puedes cambiar las opciones del plugin y los datos CSV. Al pulsar el botón <i>Cargar datos</i> se aplicarán los cambios y podrás navegar por el mapa de la derecha</p>
+			<h2>Opciones</h2>
 			<textarea id="opciones">
 L.geoCsv(null,{
   titles: ['lat', 'lng', 'popup'],
@@ -133,7 +134,12 @@ L.tileLayer('http://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 var geo_csv = {};
 
 function cargar() {
+  //guardamos los cambios del usuario en sus respectivos textarea
+  opciones_editor.save();
+  csv_editor.save();
+  //borramos la capa geo_csv del mapa
   mapa.removeLayer(geo_csv);
+  //recreamos la capa con las nuevas opciones
   geo_csv = eval(document.getElementById('opciones').value);
   geo_csv.addData(document.getElementById('csv').value);
   mapa.addLayer(geo_csv);
