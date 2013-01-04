@@ -27,29 +27,29 @@ var num_sucursales = 0;
 
 //Petición Ajax
 function dameSucursales(zona) {
-	posicionCaja=zona;
-	var ajax = new Ajax.Request("GetAssests.do", {
-		parameters: "level=activos&ubicacion=Toledo&lat=39.867&lng=-4.00649999999996&posicionCaja=" + posicionCaja+"&cache=false",
-		method: "post",
-		 onSuccess: function(response){
-		     var temp = JSON.parse(response.responseText);
-		     temp = temp.length;
-		     num_sucursales += temp;
-		     console.log('Recibidas '+temp);
-		     //quitamos los corchetes, los añadiremos en el codigo 2
-		     toditas += response.responseText.slice(1,response.responseText.length-1)+",";
-		 }
-	});
+    posicionCaja=zona;
+    var ajax = new Ajax.Request("GetAssests.do", {
+        parameters: "level=activos&ubicacion=Toledo&lat=39.867&lng=-4.00649999999996&posicionCaja=" + posicionCaja+"&cache=false",
+        method: "post",
+         onSuccess: function(response){
+             var temp = JSON.parse(response.responseText);
+             temp = temp.length;
+             num_sucursales += temp;
+             console.log('Recibidas '+temp);
+             //quitamos los corchetes, los añadiremos en el codigo 2
+             toditas += response.responseText.slice(1,response.responseText.length-1)+",";
+         }
+    });
 }
 
-resultadosZonas.forEach(function(zona){
+function recursivator(zona) {
   dameSucursales(zona["posicionCaja"]);
   if (zona.subActivos) {
-    zona.subActivos.forEach(function(subzona) {
-      dameSucursales(subzona["posicionCaja"]);
-    });
+    zona.subActivos.forEach(recursivator);
   }
-});
+}
+
+resultadosZonas.forEach(recursivator);
 ```
 
 Paso 2
@@ -134,13 +134,23 @@ Paso 4:
 -------
 
 Una vez hemos llegado aqui tenemos en la propia web al final de la página dos textarea: uno con el JSON generado y
-otro con el CSV, ya podemos copiar y pegar su contenido a sendos archivos, por ejemplo *bankias.json* y *bankias.csv*.
+otro con el CSV, ya podemos copiar y pegar su contenido a sendos archivos, por ejemplo *bankia.raw.json* y *bankia.raw.csv*.
 
-Nos queda limpiar esos archivos, pues hay muchísimos registros repetidos. A partir del CSV utilizando uniq, awk, grep
-o un lenguaje de script que te resulte cómodo resulta muy fácil eliminar los repetidos o borrar aquellos campos que
-no utilices. Y con el plugin Leaflet.geoCSV podemos cargar los datos una vez limpios directamente.
+Nos queda limpiar esos archivos, pues hay muchísimos registros repetidos. A partir del CSV utilizando uniq, sort, awk y grep
+resulta muy fácil eliminar los repetidos o borrar aquellos campos que no utilices. Por ejemplo así:
 
-Datos límpios: http://joker-x.github.com/Leaflet.geoCSV/example/bankia/brankia.csv
+```sh
+grep ";oficina;" bankia.raw.csv | awk -F ";" '{print $6";"$1";"$2";"$3";"$7";"$8";"$9}' | sort | uniq > bankias.csv
+```
+
+Y con el plugin Leaflet.geoCSV podemos cargar los datos una vez limpios directamente.
+
+Datos en bruto: http://joker-x.github.com/Leaflet.geoCSV/example/bankia/bankia.raw.csv
+
+Datos límpios: http://joker-x.github.com/Leaflet.geoCSV/example/bankia/bankias.csv
 
 Web de ejemplo: http://joker-x.github.com/Leaflet.geoCSV/example/bankia/
 
+P.S: Este podría ser un ejemplo extremo de lo que puede suponer transmitir el archivo en CSV en lugar de en JSON.
+Con 35231 registros totales que extraemos (la gran mayoría repetidos o correspondientes a cajeros) el archivo bankia.raw.csv
+ocupa 2,9 Mb; mientras que el JSON ocupa 15Mb. Por ello este último fichero no se incluye en el repositorio.
