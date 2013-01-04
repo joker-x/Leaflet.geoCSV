@@ -123,14 +123,14 @@ var bankias = L.geoCsv(null, {
 			})
 		});
 	},
-	titles: ['Localidad','Provincia','Dirección','Teléfono','lat','lng']
+	firstLineTitles: true
 });
 
 $.ajax ({
 	type:'GET',
-	dataType:'text',   
-	url:'brankia.csv',
-   error: function(err) {
+	dataType:'text',
+	url:'bankias.csv',
+   error: function() {
      alert('No se pudieron cargar los datos');
    },
 	success: function(csv) {
@@ -140,7 +140,7 @@ $.ajax ({
 		mapa.addLayer(cluster);
 		mapa.fitBounds(cluster.getBounds());
 	},
-   complete: function(data) {
+   complete: function() {
       $('#cargando').delay(500).fadeOut('slow');
    }
 });
