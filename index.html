@@ -75,13 +75,12 @@ It also defines the following own:</p>
 
 <ol>
 <li>Include the plugin in our website, behind leaflet.js:</li>
-</ol><div class="highlight"><pre><span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"leaflet.geocsv.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+<div class="highlight"><pre><span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"leaflet.geocsv.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
 </pre></div>
-
-<ol>
 <li>We create well GeoCSV layer instantiating the class or using the alias L.geoCsv:</li>
-</ol><div class="highlight"><pre><span class="kd">var</span> <span class="nx">my_geocsv</span> <span class="o">=</span> <span class="nx">L</span><span class="p">.</span><span class="nx">geoCsv</span> <span class="p">(</span><span class="nx">csv_string</span><span class="p">,</span> <span class="nx">options</span><span class="p">);</span>
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">my_geocsv</span> <span class="o">=</span> <span class="nx">L</span><span class="p">.</span><span class="nx">geoCsv</span> <span class="p">(</span><span class="nx">csv_string</span><span class="p">,</span> <span class="nx">options</span><span class="p">);</span>
 </pre></div>
+</ol>
 
 <p>The options are as we have seen in the previous section. The first parameter is a string with the contents of the CSV file. If you instantiate it with null value as csv_string, you can load data later using the method addData. Example of asynchronous loading using jQuery:</p>
 
@@ -154,13 +153,12 @@ Además define las siguientes opciones propias:</p>
 
 <ol>
 <li>Incluimos el plugin en nuestra página, detrás de leaflet.js:</li>
-</ol><div class="highlight"><pre><span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"leaflet.geocsv.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+<div class="highlight"><pre><span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"leaflet.geocsv.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
 </pre></div>
-
-<ol>
 <li>Creamos la capa GeoCSV bien instanciando la clase o utilizando el alias L.geoCsv:</li>
-</ol><div class="highlight"><pre><span class="kd">var</span> <span class="nx">mi_geocsv</span> <span class="o">=</span> <span class="nx">L</span><span class="p">.</span><span class="nx">geoCsv</span> <span class="p">(</span><span class="nx">csv_string</span><span class="p">,</span> <span class="nx">opciones</span><span class="p">);</span>
+<div class="highlight"><pre><span class="kd">var</span> <span class="nx">mi_geocsv</span> <span class="o">=</span> <span class="nx">L</span><span class="p">.</span><span class="nx">geoCsv</span> <span class="p">(</span><span class="nx">csv_string</span><span class="p">,</span> <span class="nx">opciones</span><span class="p">);</span>
 </pre></div>
+</ol>
 
 <p>Las opciones son las que hemos visto en el apartado anterior. El primer parámetro es un string con el contenido del fichero CSV. Si a la hora de instanciarlo no tenemos disponibles los datos, csv_string puede valer null y cargar los datos más adelante usando el método addData. Ejemplo de carga asíncrona usando jQuery:</p>
 
