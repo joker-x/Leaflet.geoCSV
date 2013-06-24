@@ -1,10 +1,87 @@
 Leaflet GeoCSV
 ==============
 
-Plugin para [Leaflet](https://github.com/CloudMade/Leaflet) que permite cargar un archivo CSV como capa geoJSON.
+[English](#english): [Leaflet](https://github.com/Leaflet/Leaflet) plugin for loading a CSV file as geoJSON layer.
 
-[Leaflet](https://github.com/CloudMade/Leaflet) plugin for loading a CSV file as geoJSON layer.
+[Castellano](#castellano): Plugin para [Leaflet](https://github.com/Leaflet/Leaflet) que permite cargar un archivo CSV como capa geoJSON.
 
+
+<div id="english" lang="en">
+Why GeoCSV?
+-----------
+
+*  **Comfort**: CSV is a simple open format to represent a set of data in a table. All spreadsheet software allow to import/export in this format easily.
+*  **For reasons of weight**: When it comes to represent a large set of markers on a map, generated GeoJSON file can occupy 4 times more than the same information contained in a CSV. This plugin allows you to transmit the CSV file and converts the equivalent GeoJSON on the client side, saving bandwidth and reducing your server load time of your page. In this scenario we recommend using it together with the fantastic plugin [MarkerCluster](https://github.com/danzel/Leaflet.markercluster). Example: [Bankia offices map: GeoCSV+MarkerCluster](http://joker-x.github.com/Leaflet.geoCSV/example/bankia/index.html)
+
+Download
+--------
+*  [leaflet.geocsv.js](leaflet.geocsv.js): Only plugin (2,4K uncompressed).
+*  Full Repository [.ZIP](https://github.com/joker-x/Leaflet.geoCSV/archive/master.zip) [.TAR.GZ](https://github.com/joker-x/Leaflet.geoCSV/archive/master.tar.gz): ncludes plugin, examples and libraries used in them.
+
+Options
+-------
+
+Leaflet GeoCSV inherited from [GeoJSON](http://leafletjs.com/reference.html#geojson), so it can be used all the options and methods of the superclass.
+It also defines the following own:
+
+*  **titles**: Array with the labels or titles of the fields in the order in which they appear in the CSV. There are two special titles should always appear with the same name: 'lat' → latitude y 'lng' → longitude. The rest can take any form, admitting spaces, capitalization, accents, etc.. By default *['lat', 'lng', 'popup']*
+*  **lineSeparator**: A character or string of characters used to separate CSV file lines, each of the features. By default *'\n'*
+*  **fieldSeparator**: A character or string of characters used to separate fields in the CSV file. By default *';'*
+*  **deleteDobleQuotes**: Boolean value indicating whether to delete the quotes that delimit the CSV file fields. Default *true*
+*  **firstLineTitles**: A Boolean value that indicates whether the first line of the CSV file contains the labels of the fields. Default *false*. If set to true will ignore the option titles.
+
+Methods
+-------
+
+*  **getPropertyTitle(** property_name **)**: Returns the label associated with the name of the property you receive as a parameter.
+*  **getPropertyName(** title_name **)**: Returns the name of the property associated with the title of the field that receives as a parameter.
+
+Use
+---
+
+1. Include the plugin in our website, behind leaflet.js:
+
+```html
+<script src="leaflet.geocsv.js"></script>
+```
+
+2. We create well GeoCSV layer instantiating the class or using the alias L.geoCsv:
+
+```js
+var my_geocsv = L.geoCsv (csv_string, options);
+```
+
+The options are as we have seen in the previous section. The first parameter is a string with the contents of the CSV file. If you instantiate it with null value as csv_string, you can load data later using the method addData. Example of asynchronous loading using jQuery:
+
+```js
+//...
+var mi_geocsv = L.geoCsv (null, {firstLineTitles: true, fieldSeparator: ','});
+//...
+$.ajax ({
+  type:'GET',
+  dataType:'text',
+  url:'datos.csv',
+  error: function() {
+    alert('No se pudieron cargar los datos');
+  },
+  success: function(csv) {
+    mi_geocsv.addData(csv);
+    mapa.addLayer(mi_geocsv);
+  }
+});
+```
+
+Examples
+--------
+
+In the subdirectory *example* are complete examples of using the plugin:
+*  [Dinamic test of configuration options](http://joker-x.github.com/Leaflet.geoCSV/example/options-test/index.html)
+*  [Data passing through the URL](http://joker-x.github.com/Leaflet.geoCSV/example/from-url/index.html)
+*  [Bankia offices map: GeoCSV+MarkerCluster](http://joker-x.github.com/Leaflet.geoCSV/example/bankia/index.html)
+
+</div>
+
+<div id="castellano" lang="es">
 ¿Por qué GeoCSV?
 ----------------
 
@@ -76,4 +153,5 @@ En el subdirectorio *example* se encuentran ejemplos completos del uso del plugi
 *  [Test dinámico de las opciones de configuración](http://joker-x.github.com/Leaflet.geoCSV/example/options-test/index.html)
 *  [Pasando los datos a través de la URL](http://joker-x.github.com/Leaflet.geoCSV/example/from-url/index.html)
 *  [Mapa de las sucursales de Bankia: GeoCSV+MarkerCluster](http://joker-x.github.com/Leaflet.geoCSV/example/bankia/index.html)
+</div>
 
