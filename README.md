@@ -6,7 +6,7 @@ Leaflet GeoCSV
 [Castellano](#castellano): Plugin para [Leaflet](https://github.com/Leaflet/Leaflet) que permite cargar un archivo CSV como capa geoJSON.
 
 
-<div id="english" lang="en">
+<div id="english" lang="en"></div>
 Why GeoCSV?
 -----------
 
@@ -79,9 +79,8 @@ In the subdirectory *example* are complete examples of using the plugin:
 *  [Data passing through the URL](http://joker-x.github.com/Leaflet.geoCSV/example/from-url/index.html)
 *  [Bankia offices map: GeoCSV+MarkerCluster](http://joker-x.github.com/Leaflet.geoCSV/example/bankia/index.html)
 
-</div>
 
-<div id="castellano" lang="es">
+<div id="castellano" lang="es"></div>
 ¿Por qué GeoCSV?
 ----------------
 
@@ -153,5 +152,4 @@ En el subdirectorio *example* se encuentran ejemplos completos del uso del plugi
 *  [Test dinámico de las opciones de configuración](http://joker-x.github.com/Leaflet.geoCSV/example/options-test/index.html)
 *  [Pasando los datos a través de la URL](http://joker-x.github.com/Leaflet.geoCSV/example/from-url/index.html)
 *  [Mapa de las sucursales de Bankia: GeoCSV+MarkerCluster](http://joker-x.github.com/Leaflet.geoCSV/example/bankia/index.html)
-</div>
 
