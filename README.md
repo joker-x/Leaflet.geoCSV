@@ -1,12 +1,11 @@
 Leaflet GeoCSV
 ==============
 
-[English](#english): [Leaflet](https://github.com/Leaflet/Leaflet) plugin for loading a CSV file as geoJSON layer.
+[English](#why-geocsv): [Leaflet](https://github.com/Leaflet/Leaflet) plugin for loading a CSV file as geoJSON layer.
 
-[Castellano](#castellano): Plugin para [Leaflet](https://github.com/Leaflet/Leaflet) que permite cargar un archivo CSV como capa geoJSON.
+[Castellano](#por-qu-geocsv): Plugin para [Leaflet](https://github.com/Leaflet/Leaflet) que permite cargar un archivo CSV como capa geoJSON.
 
 
-<div id="english" lang="en"></div>
 Why GeoCSV?
 -----------
 
@@ -80,7 +79,6 @@ In the subdirectory *example* are complete examples of using the plugin:
 *  [Bankia offices map: GeoCSV+MarkerCluster](http://joker-x.github.com/Leaflet.geoCSV/example/bankia/index.html)
 
 
-<div id="castellano" lang="es"></div>
 ¿Por qué GeoCSV?
 ----------------
 
