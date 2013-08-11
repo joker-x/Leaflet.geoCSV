@@ -26,7 +26,7 @@ L.GeoCSV = L.GeoJSON.extend({
     titles: ['lat', 'lng', 'popup'],
     fieldSeparator: ';',
     lineSeparator: '\n',
-    deleteDobleQuotes: true,
+    deleteDoubleQuotes: true,
     firstLineTitles: false
   },
 
@@ -49,7 +49,7 @@ L.GeoCSV = L.GeoJSON.extend({
         data = data.join(this.options.lineSeparator);
         titulos = titulos.trim().split(this.options.fieldSeparator);
         for (var i=0; i<titulos.length; i++) {
-          titulos[i] = this._deleteDobleQuotes(titulos[i]);
+          titulos[i] = this._deleteDoubleQuotes(titulos[i]);
         }
         this.options.titles = titulos;
       }
@@ -80,7 +80,7 @@ L.GeoCSV = L.GeoJSON.extend({
   },
 
   _deleteDobleQuotes: function (cadena) {
-    if (this.options.deleteDobleQuotes) cadena = cadena.trim().replace(/^"/,"").replace(/"$/,"");
+    if (this.options.deleteDoubleQuotes) cadena = cadena.trim().replace(/^"/,"").replace(/"$/,"");
     return cadena;
   },
 
@@ -105,7 +105,7 @@ L.GeoCSV = L.GeoJSON.extend({
         //propiedades
         for (var i=0; i<titulos.length; i++) {
           if (titulos[i] != 'lat' && titulos[i] != 'lng') {
-            feature["properties"][this._propertiesNames[i]] = this._deleteDobleQuotes(campos[i]);
+            feature["properties"][this._propertiesNames[i]] = this._deleteDoubleQuotes(campos[i]);
           }
         }
         json["features"].push(feature);
