@@ -22,7 +22,7 @@ using GeoCSV together with [MarkerCluster](//github.com/danzel/leaflet.markerclu
 Download
 --------
 
-* Plugin only (2.4k, uncompressed): [leaflet.geocsv.js](leaflet.geocsv.js)
+*  Plugin only (2.4k, uncompressed): [leaflet.geocsv.js](leaflet.geocsv.js)
 
 *  Full Repository (includes plugin, all prerequisites and examples): [.ZIP](https://github.com/joker-x/Leaflet.geoCSV/archive/master.zip) or [.TAR.GZ](https://github.com/joker-x/Leaflet.geoCSV/archive/master.tar.gz)
 
@@ -38,7 +38,7 @@ GeoCSV inherits the configuration options and methods of its parent object, the 
 
 * **fieldSeparator**: The string delimiting individual fields within each feature. By default, `fieldSeparator: ';'`.
 
-*  **deleteDobleQuotes**: A boolean indicating if double quotes surrounding individual field values should be removed. By default, `true`.
+*  **deleteDoubleQuotes**: A boolean indicating if double quotes surrounding individual field values should be removed. By default, `true`.
 
 * **firstLineTitles**: A boolean indicating if the first line of the CSV file contains field titles. If set to false, the plugin will ignore the `titles` configuration option. By default, `false`.
 
@@ -69,6 +69,7 @@ An example, using jQuery to read a CSV file, and adding a GeoCSV layer to a map:
     var geoLayer = L.geoCsv(csvContents, {firstLineTitles: true, fieldSeparator: ','});
     map.addLayer(geoLayer);
   });
+});
 ```
 
 
@@ -104,7 +105,7 @@ Además define las siguientes opciones propias:
 *  **titles**: Array con los rótulos o títulos de los campos en el orden en el que aparecen en el CSV. Hay dos títulos especiales que deben aparecer siempre con el mismo nombre: 'lat' → latitud y 'lng' → longitud. El resto puede adoptar cualquier forma, admitiendo espacios, mayúsculas, tildes, etc. Por defecto *['lat', 'lng', 'popup']*
 *  **lineSeparator**: Carácter o cadena de caracteres que usarán para separar las líneas del archivo CSV, cada una de las features. Por defecto *'\n'*
 *  **fieldSeparator**: Carácter o cadena de caracteres que usarán para separar los campos del archivo CSV. Por defecto *';'*
-*  **deleteDobleQuotes**: Valor booleano que indica si se desea borrar las comillas que delimitan los campos del archivo CSV. Por defecto *true*
+*  **deleteDoubleQuotes**: Valor booleano que indica si se desea borrar las comillas que delimitan los campos del archivo CSV. Por defecto *true*
 *  **firstLineTitles**: Valor booleano que indica si la primera línea del archivo CSV contiene los rótulos de los campos. Por defecto *false*. Si se pone a true se ignorará la opción titles.
 
 Métodos
