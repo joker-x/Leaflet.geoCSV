@@ -9,74 +9,79 @@ Leaflet GeoCSV
 Why GeoCSV?
 -----------
 
-*  **Comfort**: CSV is a simple open format to represent a set of data in a table. All spreadsheet software allow to import/export in this format easily.
-*  **For reasons of weight**: When it comes to represent a large set of markers on a map, generated GeoJSON file can occupy 4 times more than the same information contained in a CSV. This plugin allows you to transmit the CSV file and converts the equivalent GeoJSON on the client side, saving bandwidth and reducing your server load time of your page. In this scenario we recommend using it together with the fantastic plugin [MarkerCluster](https://github.com/danzel/Leaflet.markercluster). Example: [Bankia offices map: GeoCSV+MarkerCluster](http://joker-x.github.com/Leaflet.geoCSV/example/bankia/index.html)
+* **Ease of use**: A CSV (comma-separated values) file is a simple and open file format that stores tabular data in
+plain-text form. Virtually all spreadsheet and database software can import/export this file format.
+
+* **Save bandwidth**: When used to display markers, GeoJSON files can be up to four times as large as a CSV file
+containing the same information. This plugin provides the ability to download a CSV file that is then parsed into a
+GeoJSON document on the client side, saving you bandwidth and reducing load times. In similar scenarios, we recommend
+using GeoCSV together with [MarkerCluster](//github.com/danzel/leaflet.markercluster) as in the
+[Bankia Offices Map Example](//joker-x.github.com/Leaflet.geoCSV/example/bankia/index.html).
+
 
 Download
 --------
-*  [leaflet.geocsv.js](leaflet.geocsv.js): Only plugin (2,4K uncompressed).
-*  Full Repository [.ZIP](https://github.com/joker-x/Leaflet.geoCSV/archive/master.zip) [.TAR.GZ](https://github.com/joker-x/Leaflet.geoCSV/archive/master.tar.gz): ncludes plugin, examples and libraries used in them.
+
+* Plugin only (2.4k, uncompressed): [leaflet.geocsv.js](leaflet.geocsv.js)
+
+*  Full Repository (includes plugin, all prerequisites and examples): [.ZIP](https://github.com/joker-x/Leaflet.geoCSV/archive/master.zip) or [.TAR.GZ](https://github.com/joker-x/Leaflet.geoCSV/archive/master.tar.gz)
+
 
 Options
 -------
 
-Leaflet GeoCSV inherited from [GeoJSON](http://leafletjs.com/reference.html#geojson), so it can be used all the options and methods of the superclass.
-It also defines the following own:
+GeoCSV inherits the configuration options and methods of its parent object, the [GeoJSON](//leafletjs.com/reference.html#geojson) layer, and further defines the following of its own:
 
-*  **titles**: Array with the labels or titles of the fields in the order in which they appear in the CSV. There are two special titles should always appear with the same name: 'lat' → latitude y 'lng' → longitude. The rest can take any form, admitting spaces, capitalization, accents, etc.. By default *['lat', 'lng', 'popup']*
-*  **lineSeparator**: A character or string of characters used to separate CSV file lines, each of the features. By default *'\n'*
-*  **fieldSeparator**: A character or string of characters used to separate fields in the CSV file. By default *';'*
-*  **deleteDobleQuotes**: Boolean value indicating whether to delete the quotes that delimit the CSV file fields. Default *true*
-*  **firstLineTitles**: A Boolean value that indicates whether the first line of the CSV file contains the labels of the fields. Default *false*. If set to true will ignore the option titles.
+* **titles**: An array of field titles in the same order in which they appear within the CSV file. GeoCSV only requires the presence of two field titles, `lat` and `lng` (latitude and longitude, respectively); all others field titles are permitted, omitting spaces, capitalization, accent characters, etc. By default, `titles: ['lat', 'lng', 'popup']`
+
+* **lineSeparator**: The string delimiting lines within the CSV file (between each GeoJSON feature). By default, `lineSeparator: '\n'`.
+
+* **fieldSeparator**: The string delimiting individual fields within each feature. By default, `fieldSeparator: ';'`.
+
+*  **deleteDobleQuotes**: A boolean indicating if double quotes surrounding individual field values should be removed. By default, `true`.
+
+* **firstLineTitles**: A boolean indicating if the first line of the CSV file contains field titles. If set to false, the plugin will ignore the `titles` configuration option. By default, `false`.
+
 
 Methods
 -------
 
-*  **getPropertyTitle(** property_name **)**: Returns the label associated with the name of the property you receive as a parameter.
-*  **getPropertyName(** title_name **)**: Returns the name of the property associated with the title of the field that receives as a parameter.
+*  **getPropertyTitle(** propertyName **)**: When passed a property name (string), returns the associated property title.
+
+*  **getPropertyName(** propertyTitle **)**: When passed a property title (string), returns the associated property name.
 
 Use
 ---
 
-1. Include the plugin in our website, behind leaflet.js:
+1. Include the plugin JavaScript file after leaflet.js: `<script src="leaflet.geocsv.js"></script>`
 
-```html
-<script src="leaflet.geocsv.js"></script>
-```
+2. Create a GeoCSV layer by instantiating the class or calling `L.geoCsv()`. Where `csvFileContents` is the content of a CSV file and `options` is an object literal as described in the previous section: `var csvLayer = L.geoCsv(csvFileContents, options);`
 
-2. We create well GeoCSV layer instantiating the class or using the alias L.geoCsv:
+An example, using jQuery to read a CSV file, and adding a GeoCSV layer to a map:
 
 ```js
-var my_geocsv = L.geoCsv (csv_string, options);
+(function() {
+  'use strict';
+
+  var map = L.map('mapContainer');
+
+  $.get('data.csv', function(csvContents) {
+    var geoLayer = L.geoCsv(csvContents, {firstLineTitles: true, fieldSeparator: ','});
+    map.addLayer(geoLayer);
+  });
 ```
 
-The options are as we have seen in the previous section. The first parameter is a string with the contents of the CSV file. If you instantiate it with null value as csv_string, you can load data later using the method addData. Example of asynchronous loading using jQuery:
-
-```js
-//...
-var mi_geocsv = L.geoCsv (null, {firstLineTitles: true, fieldSeparator: ','});
-//...
-$.ajax ({
-  type:'GET',
-  dataType:'text',
-  url:'datos.csv',
-  error: function() {
-    alert('No se pudieron cargar los datos');
-  },
-  success: function(csv) {
-    mi_geocsv.addData(csv);
-    mapa.addLayer(mi_geocsv);
-  }
-});
-```
 
 Examples
 --------
 
-In the subdirectory *example* are complete examples of using the plugin:
-*  [Dinamic test of configuration options](http://joker-x.github.com/Leaflet.geoCSV/example/options-test/index.html)
-*  [Data passing through the URL](http://joker-x.github.com/Leaflet.geoCSV/example/from-url/index.html)
-*  [Bankia offices map: GeoCSV+MarkerCluster](http://joker-x.github.com/Leaflet.geoCSV/example/bankia/index.html)
+Complete examples can be found within the `examples` subdirectory of the repository:
+
+*  [Configuration Options Test](//joker-x.github.com/Leaflet.geoCSV/example/options-test/index.html)
+
+*  [Data Passing Through the URL](//joker-x.github.com/Leaflet.geoCSV/example/from-url/index.html)
+
+*  [Bankia Offices (GeoCSV + MarkerCluster)](//joker-x.github.com/Leaflet.geoCSV/example/bankia/index.html)
 
 
 ¿Por qué GeoCSV?
