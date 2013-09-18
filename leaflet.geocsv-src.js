@@ -79,7 +79,7 @@ L.GeoCSV = L.GeoJSON.extend({
     return title;
   },
 
-  _deleteDobleQuotes: function (cadena) {
+  _deleteDoubleQuotes: function (cadena) {
     if (this.options.deleteDoubleQuotes) cadena = cadena.trim().replace(/^"/,"").replace(/"$/,"");
     return cadena;
   },
