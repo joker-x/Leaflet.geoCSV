@@ -34,6 +34,10 @@ GeoCSV inherits the configuration options and methods of its parent object, the 
 
 * **titles**: An array of field titles in the same order in which they appear within the CSV file. GeoCSV only requires the presence of two field titles, `lat` and `lng` (latitude and longitude, respectively); all others field titles are permitted, omitting spaces, capitalization, accent characters, etc. By default, `titles: ['lat', 'lng', 'popup']`
 
+* **latitudeTitle**: The title used for the latitude value of the feature. By default, `latitudeTitle: 'lat'`.
+
+* **longitudeTitle**: The title used for the longitude value of the feature. By default, `longitudeTitle: 'lng'`.
+
 * **lineSeparator**: The string delimiting lines within the CSV file (between each GeoJSON feature). By default, `lineSeparator: '\n'`.
 
 * **fieldSeparator**: The string delimiting individual fields within each feature. By default, `fieldSeparator: ';'`.
