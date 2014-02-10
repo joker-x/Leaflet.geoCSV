@@ -107,9 +107,17 @@ Leaflet GeoCSV hereda de [GeoJSON](http://leafletjs.com/reference.html#geojson),
 Además define las siguientes opciones propias:
 
 *  **titles**: Array con los rótulos o títulos de los campos en el orden en el que aparecen en el CSV. Hay dos títulos especiales que deben aparecer siempre con el mismo nombre: 'lat' → latitud y 'lng' → longitud. El resto puede adoptar cualquier forma, admitiendo espacios, mayúsculas, tildes, etc. Por defecto *['lat', 'lng', 'popup']*
+
+* **latitudeTitle**: Título del campo latitud. Por defecto `latitudeTitle: 'lat'`.
+
+* **longitudeTitle**: Título del campo longitud. Por defecto `longitudeTitle: 'lng'`.
+
 *  **lineSeparator**: Carácter o cadena de caracteres que usarán para separar las líneas del archivo CSV, cada una de las features. Por defecto *'\n'*
+
 *  **fieldSeparator**: Carácter o cadena de caracteres que usarán para separar los campos del archivo CSV. Por defecto *';'*
+
 *  **deleteDoubleQuotes**: Valor booleano que indica si se desea borrar las comillas que delimitan los campos del archivo CSV. Por defecto *true*
+
 *  **firstLineTitles**: Valor booleano que indica si la primera línea del archivo CSV contiene los rótulos de los campos. Por defecto *false*. Si se pone a true se ignorará la opción titles.
 
 Métodos
@@ -158,6 +166,8 @@ Ejemplos
 
 En el subdirectorio *example* se encuentran ejemplos completos del uso del plugin:
 *  [Test dinámico de las opciones de configuración](http://joker-x.github.com/Leaflet.geoCSV/example/options-test/index.html)
+
 *  [Pasando los datos a través de la URL](http://joker-x.github.com/Leaflet.geoCSV/example/from-url/index.html)
+
 *  [Mapa de las sucursales de Bankia: GeoCSV+MarkerCluster](http://joker-x.github.com/Leaflet.geoCSV/example/bankia/index.html)
 
