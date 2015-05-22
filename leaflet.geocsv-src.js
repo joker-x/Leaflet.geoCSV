@@ -35,6 +35,7 @@ L.GeoCSV = L.GeoJSON.extend({
   _propertiesNames: [],
 
   initialize: function (csv, options) {
+    this._propertiesNames = [];
     L.Util.setOptions (this, options);
     L.GeoJSON.prototype.initialize.call (this, csv, options);
   },
