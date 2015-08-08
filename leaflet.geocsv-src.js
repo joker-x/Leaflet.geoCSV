@@ -24,9 +24,11 @@ L.GeoCSV = L.GeoJSON.extend({
   //opciones por defecto
   options: {
     titles: ['lat', 'lng', 'popup'],
+	latitudeTitle: 'lat',
+	longitudeTitle: 'lng',
     fieldSeparator: ';',
     lineSeparator: '\n',
-    deleteDobleQuotes: true,
+    deleteDoubleQuotes: true,
     firstLineTitles: false
   },
 
@@ -49,20 +51,20 @@ L.GeoCSV = L.GeoJSON.extend({
         data = data.join(this.options.lineSeparator);
         titulos = titulos.trim().split(this.options.fieldSeparator);
         for (var i=0; i<titulos.length; i++) {
-          titulos[i] = this._deleteDobleQuotes(titulos[i]);
+          titulos[i] = this._deleteDoubleQuotes(titulos[i]);
         }
         this.options.titles = titulos;
       }
       //generamos _propertiesNames
       for (var i=0; i<titulos.length; i++) {
          var prop = titulos[i].toLowerCase().replace(/[^\w ]+/g,'').replace(/ +/g,'_');
-         if (prop == '' || prop == '_' || this._propertiesNames.indexOf(prop) >= 0) prop = 'prop-'+i;
+         if (prop == '' || prop == '_') prop = 'prop-'+i;
          this._propertiesNames[i] = prop;
       }
       //convertimos los datos a geoJSON
       data = this._csv2json(data);
     }
-    L.GeoJSON.prototype.addData.call (this, data);
+    return L.GeoJSON.prototype.addData.call (this, data);
   },
 
   getPropertyName: function (title) {
@@ -79,8 +81,8 @@ L.GeoCSV = L.GeoJSON.extend({
     return title;
   },
 
-  _deleteDobleQuotes: function (cadena) {
-    if (this.options.deleteDobleQuotes) cadena = cadena.trim().replace(/^"/,"").replace(/"$/,"");
+  _deleteDoubleQuotes: function (cadena) {
+    if (this.options.deleteDoubleQuotes) cadena = cadena.trim().replace(/^"/,"").replace(/"$/,"");
     return cadena;
   },
 
@@ -93,8 +95,8 @@ L.GeoCSV = L.GeoJSON.extend({
     csv = csv.split(this.options.lineSeparator);
     for (var num_linea = 0; num_linea < csv.length; num_linea++) {
       var campos = csv[num_linea].trim().split(this.options.fieldSeparator)
-        , lng = parseFloat(campos[titulos.indexOf('lng')])
-        , lat = parseFloat(campos[titulos.indexOf('lat')]);
+        , lng = parseFloat(campos[titulos.indexOf(this.options.longitudeTitle)])
+        , lat = parseFloat(campos[titulos.indexOf(this.options.latitudeTitle)]);
       if (campos.length==titulos.length && lng<180 && lng>-180 && lat<90 && lat>-90) {
         var feature = {};
         feature["type"]="Feature";
@@ -104,8 +106,8 @@ L.GeoCSV = L.GeoJSON.extend({
         feature["geometry"]["coordinates"]=[lng,lat];
         //propiedades
         for (var i=0; i<titulos.length; i++) {
-          if (titulos[i] != 'lat' && titulos[i] != 'lng') {
-            feature["properties"][this._propertiesNames[i]] = this._deleteDobleQuotes(campos[i]);
+          if (titulos[i] != this.options.latitudeTitle && titulos[i] != this.options.longitudeTitle) {
+            feature["properties"][this._propertiesNames[i]] = this._deleteDoubleQuotes(campos[i]);
           }
         }
         json["features"].push(feature);
