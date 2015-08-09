@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="es">
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+		<title>Leaflet.geoCSV: Test de opciones</title>
+
+      <!-- Leaflet 0.5: https://github.com/CloudMade/Leaflet-->
+		<link rel="stylesheet" href="../../lib/leaflet.css" />
+		<!--[if lte IE 8]> <link rel="stylesheet" href="../../lib/leaflet.ie.css" />  <![endif]-->  
+		<script src="../../lib/leaflet.js"></script>
+
+		<!-- GeoCSV: https://github.com/joker-x/Leaflet.geoCSV -->
+		<script src="../../leaflet.geocsv-src.js"></script>
+
+		<!-- CodeMirror -->
+		<link rel="stylesheet" href="../../lib/codemirror/codemirror.css">
+		<script src="../../lib/codemirror/codemirror.js"></script>
+		<script src="../../lib/codemirror/util/matchbrackets.js"></script>
+		<script src="../../lib/codemirror/mode-javascript.js"></script>
+
+		<style>	
+		html, body {
+			margin: 0;
+			padding: 0;
+			font-family: Arial, sans-serif;
+			background-color: #eee;
+		}
+		a {
+			text-decoration: none;
+		}
+		.caja {
+			display: block;
+			float:left;
+			width: 43%;
+			margin: 1%;
+			padding: 2%;
+			border: 1px solid #ccc;
+			background-color: #fff;
+		}
+		#mapa {
+			height: 300px;
+		}
+		h1 {
+			margin: 0;
+			text-align: center;
+			padding: 10px;
+			border-bottom: 1px solid #ccc;
+			background-color: #fff
+		}
+		h2 {
+			margin-bottom: 5px;
+		}
+		textarea {
+			clear: both;
+			width: 100%;
+			height: 200px;
+			font-family: monospace;
+		}
+		#cargar {
+			margin: 20px 0 0 0;
+			font-size: 1.2em;
+		}
+		.CodeMirror {
+			border: 1px solid #eee;
+			font-size: 1.2em;
+			height: auto;
+			font-family: monospace;
+		}
+		</style>
+	</head>
+	<body>
+
+		<h1><a href="https://github.com/joker-x/Leaflet.geoCSV" title="Repositorio en github">Leaflet.GeoCSV</a>: Load icons from CSV</h1>
+
+      <div class="caja">
+		<div id="controles">
+
+			<p>In this example, we load icons and HTML from CSV into the map. We can write full url or relative path. More at <a href="http://leafletjs.com/examples/custom-icons.html">Leaflet documentation</a>.</p>
+
+			<h2>CSV</h2>
+			<textarea id="csv">
+lat;lng;icon;popup
+48.8566;2.3522;http://joker-x.github.io/Leaflet.geoCSV/example/bankia/marcador-bankia.png;<a href="https://es.wikipedia.org/wiki/Par%C3%ADs">París</a>, capital de Francia
+40.4168;-3.7038;red.png;Madrid, capital de España<br><img src="https://upload.wikimedia.org/wikipedia/commons/8/87/Bandera_de_Madrid.svg" width="100%" />
+41.9015;12.4608;blue.png;Roma, capital de Italia
+37.9837;23.7293;purple.png;Atenas, capital de Grecia</textarea>
+
+			<h2>Javascript</h2>
+			<textarea id="opciones">
+L.geoCsv(null,{
+  fieldSeparator: ';',
+  firstLineTitles: true,
+  onEachFeature: function (feature, layer) {
+    layer.bindPopup(feature.properties["popup"]);
+  },
+  pointToLayer: function (feature, latlng) {
+    return L.marker(latlng, {
+      icon:L.icon({
+        iconUrl: feature.properties['icon'],
+        shadowUrl: 'shadow.png',
+        iconSize: [25,41],
+        shadowSize:   [41, 41],
+        shadowAnchor: [13, 20]
+      })
+    });
+  }
+});</textarea>
+
+			<button id="cargar">Load data</button>
+
+		</div>
+		</div>
+		<div class="caja">
+			<div id="mapa"></div>
+		</div>
+
+<script>
+
+//codemirror
+var opciones_editor = CodeMirror.fromTextArea(document.getElementById("opciones"), {
+  lineNumbers: true,
+  matchBrackets: true,
+  mode: "text/typescript"});
+
+var csv_editor = CodeMirror.fromTextArea(document.getElementById("csv"), {lineNumbers: true});
+
+//altura del mapa al tamaño de los controles, dos columnas iguales
+function ajusta_Altura() {
+  var altura = document.getElementById('controles').offsetHeight
+  document.getElementById('mapa').style.height = altura+20+"px";
+}
+
+ajusta_Altura();
+
+//instanciamos el mapa
+var mapa = L.map('mapa', {attributionControl:false}).setView([49, 3], 4);
+
+L.tileLayer('http://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+	maxZoom: 18
+}).addTo(mapa);
+
+//dotamos de funcionalidad al botón cargar
+var geo_csv = {};
+
+function cargar() {
+  //guardamos los cambios del usuario en sus respectivos textarea
+  opciones_editor.save();
+  csv_editor.save();
+  //borramos la capa geo_csv del mapa
+  mapa.removeLayer(geo_csv);
+  //recreamos la capa con las nuevas opciones
+  geo_csv = eval(document.getElementById('opciones').value);
+  geo_csv.addData(document.getElementById('csv').value);
+  mapa.addLayer(geo_csv);
+}
+
+document.getElementById('cargar').addEventListener('click', cargar, false);
+
+</script>
+
+	</body>
+</html>
