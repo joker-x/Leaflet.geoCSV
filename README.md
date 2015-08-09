@@ -84,6 +84,8 @@ Complete examples can be found within the `examples` subdirectory of the reposit
 
 *  [Configuration Options Test](//joker-x.github.com/Leaflet.geoCSV/example/options-test/index.html)
 
+*  [Load custom icons from CSV](//joker-x.github.com/Leaflet.geoCSV/example/icons/index.html)
+
 *  [Data Passing Through the URL](//joker-x.github.com/Leaflet.geoCSV/example/from-url/index.html)
 
 *  [Bankia Offices (GeoCSV + MarkerCluster)](//joker-x.github.com/Leaflet.geoCSV/example/bankia/index.html)
@@ -165,7 +167,10 @@ Ejemplos
 --------
 
 En el subdirectorio *example* se encuentran ejemplos completos del uso del plugin:
+
 *  [Test dinámico de las opciones de configuración](http://joker-x.github.com/Leaflet.geoCSV/example/options-test/index.html)
+
+*  [Cargando iconos personalizados desde el CSV](//joker-x.github.com/Leaflet.geoCSV/example/icons/index.html)
 
 *  [Pasando los datos a través de la URL](http://joker-x.github.com/Leaflet.geoCSV/example/from-url/index.html)
 
