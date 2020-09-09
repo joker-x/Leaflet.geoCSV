@@ -119,8 +119,8 @@ L.GeoCSV = L.GeoJSON.extend({
     for (var i=0; i<coordinates.length; i++) {
       coordinates[i]=coordinates[i].trim().split(' ');
       if (coordinates[i].length != 2) return feature;
-      var lat=parseFloat(coordinates[i][0]);
-      var lng=parseFloat(coordinates[i][1]);
+      var lng=parseFloat(coordinates[i][0]);
+      var lat=parseFloat(coordinates[i][1]);
       if (isNaN(lat) || lng > 90 || lng < -90) return feature;
       if (isNaN(lng) || lng > 180 || lng < -180) return feature;
       coordinates[i]=[lng,lat];
