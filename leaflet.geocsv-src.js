@@ -29,7 +29,9 @@ L.GeoCSV = L.GeoJSON.extend({
     fieldSeparator: ';',
     lineSeparator: '\n',
     deleteDoubleQuotes: true,
-    firstLineTitles: false
+    firstLineTitles: false,
+    activeWKT: false,
+    WKTTitle: 'wkt'
   },
 
   _propertiesNames: [],
@@ -108,6 +110,50 @@ L.GeoCSV = L.GeoJSON.extend({
     return arr;
   },
 
+  _parseWKTFeature: function (wkt) {
+    var feature = this._featureBlank();
+    wkt = wkt.toUpperCase().replace(/\s+/g,' ').trim();
+    var geotype = wkt.split('(')[0].trim();
+    var coordinates = wkt.replace(/[^0-9., -]/g, '').trim().split(',');
+
+    for (var i=0; i<coordinates.length; i++) {
+      coordinates[i]=coordinates[i].trim().split(' ');
+      if (coordinates[i].length != 2) return feature;
+      var lat=parseFloat(coordinates[i][0]);
+      var lng=parseFloat(coordinates[i][1]);
+      if (isNaN(lat) || lng > 90 || lng < -90) return feature;
+      if (isNaN(lng) || lng > 180 || lng < -180) return feature;
+      coordinates[i]=[lng,lat];
+    }
+
+    switch (geotype) {
+      case 'POINT':
+        feature["geometry"]["type"]='Point';
+        feature["geometry"]["coordinates"]=coordinates[0];
+        break;
+      case 'LINESTRING':
+        feature["geometry"]["type"]='LineString';
+        feature["geometry"]["coordinates"]=coordinates;
+        break;
+      case 'POLYGON':
+        feature["geometry"]["type"]='Polygon';
+        feature["geometry"]["coordinates"]=[coordinates];
+        break;
+      default:
+        console.log(geotype+' not supported');
+    }
+
+    return feature;
+  }, 
+
+  _featureBlank: function() {
+    return {
+      type: "Feature",
+      geometry: {},
+      properties: {}
+    };
+  },
+
   _csv2json: function (csv) {
     var json = {};
     json["type"]="FeatureCollection";
@@ -118,23 +164,29 @@ L.GeoCSV = L.GeoJSON.extend({
 
     for (var num_linea = 0; num_linea < csv.length; num_linea++) {
       var campos = csv[num_linea]
-        , lng = parseFloat(campos[titulos.indexOf(this.options.longitudeTitle)])
-        , lat = parseFloat(campos[titulos.indexOf(this.options.latitudeTitle)]);
-      if (campos.length==titulos.length && lng<180 && lng>-180 && lat<90 && lat>-90) {
-        var feature = {};
-        feature["type"]="Feature";
-        feature["geometry"]={};
-        feature["properties"]={};
-        feature["geometry"]["type"]="Point";
-        feature["geometry"]["coordinates"]=[lng,lat];
-        //propiedades
-        for (var i=0; i<titulos.length; i++) {
-          if (titulos[i] != this.options.latitudeTitle && titulos[i] != this.options.longitudeTitle) {
-            feature["properties"][this._propertiesNames[i]] = this._deleteDoubleQuotes(campos[i]);
-          }
+        , feature = this._featureBlank();
+
+      if (campos.length != titulos.length) continue;
+
+      if (this.options.activeWKT) {
+        feature = this._parseWKTFeature(campos[titulos.indexOf(this.options.WKTTitle)]);
+      } else {
+	    var lng = parseFloat(campos[titulos.indexOf(this.options.longitudeTitle)])
+	      , lat = parseFloat(campos[titulos.indexOf(this.options.latitudeTitle)]);
+	    if (lng<180 && lng>-180 && lat<90 && lat>-90) {
+	      feature["geometry"]["type"]="Point";
+	      feature["geometry"]["coordinates"]=[lng,lat];
         }
+      }
+      if (feature.geometry && feature.geometry.type) {
+        // valid feature
+	    for (var i=0; i<titulos.length; i++) {
+	      if (titulos[i] != this.options.WKTTitle && titulos[i] != this.options.latitudeTitle && titulos[i] != this.options.longitudeTitle) {
+	        feature["properties"][this._propertiesNames[i]] = this._deleteDoubleQuotes(campos[i]);
+	      }
+	    }
         json["features"].push(feature);
-      } 
+      }
     }
     return json;
   }

@@ -5,6 +5,10 @@ Leaflet GeoCSV
 
 [Castellano](#por-qu-geocsv): Plugin para [Leaflet](https://github.com/Leaflet/Leaflet) que permite cargar un archivo CSV como capa geoJSON.
 
+News
+----
+
+* Add WKT support for POINT LINESTRING and POLYGON in development branch
 
 Why GeoCSV?
 -----------
@@ -42,10 +46,13 @@ GeoCSV inherits the configuration options and methods of its parent object, the 
 
 * **fieldSeparator**: The string delimiting individual fields within each feature. By default, `fieldSeparator: ';'`.
 
-*  **deleteDoubleQuotes**: A boolean indicating if double quotes surrounding individual field values should be removed. By default, `true`.
+* **deleteDoubleQuotes**: A boolean indicating if double quotes surrounding individual field values should be removed. By default, `true`.
 
 * **firstLineTitles**: A boolean indicating if the first line of the CSV file contains field titles. If set to false, the plugin will ignore the `titles` configuration option. By default, `false`.
 
+* **activeWKT**: A boolean indicating if the GeoCSV file use WKT mode. By default, `false`.
+
+* **WKTTitle**: The title used for the WKT field of the feature. By default, `wkt`.
 
 Methods
 -------
@@ -90,6 +97,7 @@ Complete examples can be found within the `examples` subdirectory of the reposit
 
 *  [Bankia Offices (GeoCSV + MarkerCluster)](//joker-x.github.com/Leaflet.geoCSV/examples/bankia/index.html)
 
+*  [WKT Test](//joker-x.github.com/Leaflet.geoCSV/examples/wkt/index.html)
 
 ¿Por qué GeoCSV?
 ----------------
@@ -121,6 +129,10 @@ Además define las siguientes opciones propias:
 *  **deleteDoubleQuotes**: Valor booleano que indica si se desea borrar las comillas que delimitan los campos del archivo CSV. Por defecto *true*
 
 *  **firstLineTitles**: Valor booleano que indica si la primera línea del archivo CSV contiene los rótulos de los campos. Por defecto *false*. Si se pone a true se ignorará la opción titles.
+
+* **activeWKT**: Valor booleano que indica si el archivo GeoCSV usa el modo WKT. Por defecto, `false`.
+
+* **WKTTitle**: Título del campo WKT. Por defecto, `wkt`.
 
 Métodos
 -------
@@ -168,11 +180,13 @@ Ejemplos
 
 En el subdirectorio *example* se encuentran ejemplos completos del uso del plugin:
 
-*  [Test dinámico de las opciones de configuración](http://joker-x.github.com/Leaflet.geoCSV/examples/options-test/index.html)
+*  [Test dinámico de las opciones de configuración](//joker-x.github.com/Leaflet.geoCSV/examples/options-test/index.html)
 
 *  [Cargando iconos personalizados desde el CSV](//joker-x.github.com/Leaflet.geoCSV/examples/icons/index.html)
 
-*  [Pasando los datos a través de la URL](http://joker-x.github.com/Leaflet.geoCSV/examples/from-url/index.html)
+*  [Pasando los datos a través de la URL](//joker-x.github.com/Leaflet.geoCSV/examples/from-url/index.html)
 
-*  [Mapa de las sucursales de Bankia: GeoCSV+MarkerCluster](http://joker-x.github.com/Leaflet.geoCSV/examples/bankia/index.html)
+*  [Mapa de las sucursales de Bankia: GeoCSV+MarkerCluster](//joker-x.github.com/Leaflet.geoCSV/examples/bankia/index.html)
+
+*  [Test de WKT](//joker-x.github.com/Leaflet.geoCSV/examples/wkt/index.html)
 
