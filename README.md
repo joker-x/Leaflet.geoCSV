@@ -8,7 +8,7 @@ Leaflet GeoCSV
 News
 ----
 
-* Add WKT support for POINT LINESTRING and POLYGON in development branch
+* Add WKT support for POINT, LINESTRING and POLYGON in development branch
 
 Why GeoCSV?
 -----------
