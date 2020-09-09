@@ -1,2 +1,8 @@
 markdown: kramdown
 path: https://joker-x.github.io/Leaflet.geoCSV/
+
+title: Leaflet.GeoCSV
+description: Leaflet plugin for loading a CSV file as geoJSON layer
+google_analytics: 
+show_downloads: true
+theme: jekyll-theme-hacker
