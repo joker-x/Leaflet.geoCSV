@@ -1,6 +1,6 @@
 {
   "name": "leaflet-geocsv",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Leaflet plugin for loading a CSV file as geoJSON layer",
   "main": "leaflet.geocsv.js",
   "directories": {
