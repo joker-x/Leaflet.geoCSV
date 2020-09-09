@@ -82,13 +82,13 @@ Examples
 
 Complete examples can be found within the `examples` subdirectory of the repository:
 
-*  [Configuration Options Test](//joker-x.github.com/Leaflet.geoCSV/example/options-test/index.html)
+*  [Configuration Options Test](//joker-x.github.com/Leaflet.geoCSV/examples/options-test/index.html)
 
-*  [Load custom icons from CSV](//joker-x.github.com/Leaflet.geoCSV/example/icons/index.html)
+*  [Load custom icons from CSV](//joker-x.github.com/Leaflet.geoCSV/examples/icons/index.html)
 
-*  [Data Passing Through the URL](//joker-x.github.com/Leaflet.geoCSV/example/from-url/index.html)
+*  [Data Passing Through the URL](//joker-x.github.com/Leaflet.geoCSV/examples/from-url/index.html)
 
-*  [Bankia Offices (GeoCSV + MarkerCluster)](//joker-x.github.com/Leaflet.geoCSV/example/bankia/index.html)
+*  [Bankia Offices (GeoCSV + MarkerCluster)](//joker-x.github.com/Leaflet.geoCSV/examples/bankia/index.html)
 
 
 ¿Por qué GeoCSV?
@@ -168,11 +168,11 @@ Ejemplos
 
 En el subdirectorio *example* se encuentran ejemplos completos del uso del plugin:
 
-*  [Test dinámico de las opciones de configuración](http://joker-x.github.com/Leaflet.geoCSV/example/options-test/index.html)
+*  [Test dinámico de las opciones de configuración](http://joker-x.github.com/Leaflet.geoCSV/examples/options-test/index.html)
 
-*  [Cargando iconos personalizados desde el CSV](//joker-x.github.com/Leaflet.geoCSV/example/icons/index.html)
+*  [Cargando iconos personalizados desde el CSV](//joker-x.github.com/Leaflet.geoCSV/examples/icons/index.html)
 
-*  [Pasando los datos a través de la URL](http://joker-x.github.com/Leaflet.geoCSV/example/from-url/index.html)
+*  [Pasando los datos a través de la URL](http://joker-x.github.com/Leaflet.geoCSV/examples/from-url/index.html)
 
-*  [Mapa de las sucursales de Bankia: GeoCSV+MarkerCluster](http://joker-x.github.com/Leaflet.geoCSV/example/bankia/index.html)
+*  [Mapa de las sucursales de Bankia: GeoCSV+MarkerCluster](http://joker-x.github.com/Leaflet.geoCSV/examples/bankia/index.html)
 
