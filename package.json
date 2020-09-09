@@ -1,0 +1,33 @@
+{
+  "name": "leaflet-geocsv",
+  "version": "1.0.0",
+  "description": "Leaflet plugin for loading a CSV file as geoJSON layer",
+  "main": "leaflet.geocsv.js",
+  "directories": {
+    "example": "examples",
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joker-x/Leaflet.geoCSV.git"
+  },
+  "keywords": [
+    "leaflet",
+    "map",
+    "geocsv",
+    "geojson"
+  ],
+  "bundleDependencies": false,
+  "dependencies": {
+    "leaflet-engine": ">=0.4.2"
+  },
+  "author": "joker-x",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/joker-x/Leaflet.geoCSV/issues"
+  },
+  "homepage": "https://github.com/joker-x/Leaflet.geoCSV#readme"
+}
