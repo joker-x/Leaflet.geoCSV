@@ -87,15 +87,37 @@ L.GeoCSV = L.GeoJSON.extend({
     return cadena;
   },
 
+  // from https://stackoverflow.com/questions/1293147/example-javascript-code-to-parse-csv-data
+  _csv2array: function (str) {
+    var arr = [];
+    var quote = false;
+    for (var row = col = c = 0; c < str.length; c++) {
+        var cc = str[c], nc = str[c+1];
+        arr[row] = arr[row] || [];
+        arr[row][col] = arr[row][col] || '';
+
+        if (cc == '"' && quote && nc == '"') { arr[row][col] += cc; ++c; continue; }  
+        if (cc == '"') { quote = !quote; continue; }
+        if (cc == this.options.fieldSeparator && !quote) { ++col; continue; }
+        if (cc == '\r' && nc == this.options.lineSeparator && !quote) { ++row; col = 0; ++c; continue; }
+        if (cc == this.options.lineSeparator && !quote) { ++row; col = 0; continue; }
+        if (cc == '\r' && !quote) { ++row; col = 0; continue; }
+
+        arr[row][col] += cc;
+    }
+    return arr;
+  },
+
   _csv2json: function (csv) {
     var json = {};
     json["type"]="FeatureCollection";
     json["features"]=[];
     var titulos = this.options.titles;
 
-    csv = csv.split(this.options.lineSeparator);
+    csv = this._csv2array(csv);
+
     for (var num_linea = 0; num_linea < csv.length; num_linea++) {
-      var campos = csv[num_linea].trim().split(this.options.fieldSeparator)
+      var campos = csv[num_linea]
         , lng = parseFloat(campos[titulos.indexOf(this.options.longitudeTitle)])
         , lat = parseFloat(campos[titulos.indexOf(this.options.latitudeTitle)]);
       if (campos.length==titulos.length && lng<180 && lng>-180 && lat<90 && lat>-90) {
