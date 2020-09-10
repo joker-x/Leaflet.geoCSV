@@ -5,6 +5,12 @@ Leaflet GeoCSV
 
 [Castellano](#por-qu-geocsv): Plugin para [Leaflet](https://github.com/Leaflet/Leaflet) que permite cargar un archivo CSV como capa geoJSON.
 
+News
+----
+
+* Add WKT support for POINT, LINESTRING and POLYGON in [development branch](https://github.com/joker-x/Leaflet.geoCSV/tree/development). 
+See [test example](https://joker-x.github.io/Leaflet.geoCSV/examples/wkt/index.html)
+
 
 Why GeoCSV?
 -----------
