@@ -5,4 +5,4 @@ title: Leaflet.GeoCSV
 description: Leaflet plugin for loading a CSV file as geoJSON layer
 google_analytics: 
 show_downloads: true
-theme: jekyll-theme-hacker
+theme: jekyll-theme-tactile
