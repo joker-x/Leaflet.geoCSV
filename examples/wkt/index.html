@@ -78,13 +78,12 @@
 			<h2>Opciones</h2>
 			<textarea id="opciones">
 L.geoCsv(null,{
-  titles: ['wkt', 'popup'],
+  titles: ['Feature', 'Popup'],
   fieldSeparator: ',',
   lineSeparator: '\n',
-  deleteDobleQuotes: true,
-  firstLineTitles: false,
   activeWKT: true,
-  WKTTitle: 'wkt',
+  WKTTitle: 'Feature',
+  debug: true,
   onEachFeature: function (feature, layer) {
     var popup = '';
     for (var clave in feature.properties) {
@@ -96,10 +95,19 @@ L.geoCsv(null,{
 });</textarea>
 			<h2>CSV</h2>
 			<textarea id="csv">
-"POINT (2.3522 48.8566)","París, capital de Francia"
-"POLYGON (-3.707721 40.412752,2.3522 48.8566,12.4608 41.9015,-3.707721 40.412752)","Triángulo de capitales"
-"LINESTRING (-3.7038 40.4168,38 56)","España-Rusia"
-"POINT (23.7293 37.9837)","Atenas, capital de Grecia"</textarea>
+# Geometry primitives (2D)
+"POINT (2.3522 48.8566)","Point París"
+"LINESTRING (-3.7038 40.4168,38 56)","LineString"
+"POLYGON (-3.707721 40.412752,2.3522 48.8566,12.4608 41.9015,-3.707721 40.412752)","Polygon"
+
+# Multipart geometries (2D)
+"MULTIPOINT (30 50, 40 30)","MultiPoint format 1"
+"MULTIPOINT ((38 56), (39 59))","MultiPoint format 2"
+"MULTILINESTRING ((-2 30.4168,38 56),(38 50, -1 40))","MultiLineString"
+"MULTIPOLYGON (((-10.3 45,2.3522 48.8566,12.4608 41.9015,-3.707721 40.412752)),((-3.7038 40.4168,4 30, 38 56,-3.7038 40.4168)))","MultiPolygon"
+
+# Error latitude
+"POINT (230.7293 37.9837)","Atenas, capital de Grecia"</textarea>
 			<button id="cargar">Cargar datos</button>
 		</div>
 		</div>
