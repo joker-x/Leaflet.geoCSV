@@ -3,7 +3,7 @@ Leaflet GeoCSV
 
 [English](#why-geocsv): [Leaflet](https://github.com/Leaflet/Leaflet) plugin for loading a CSV file as geoJSON layer.
 
-[Castellano](#por-qu-geocsv): Plugin para [Leaflet](https://github.com/Leaflet/Leaflet) que permite cargar un archivo CSV como capa geoJSON.
+[Castellano](#por-qué-geocsv): Plugin para [Leaflet](https://github.com/Leaflet/Leaflet) que permite cargar un archivo CSV como capa geoJSON.
 
 News
 ----
