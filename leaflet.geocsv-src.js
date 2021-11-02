@@ -21,48 +21,68 @@
 
 L.GeoCSV = L.GeoJSON.extend({
 
-  //opciones por defecto
+  // default values for options
   options: {
     titles: ['lat', 'lng', 'popup'],
-	latitudeTitle: 'lat',
-	longitudeTitle: 'lng',
-    fieldSeparator: ';',
+    latitudeTitle: 'lat',
+    longitudeTitle: 'lng',
+    fieldSeparator: ',',
     lineSeparator: '\n',
-    deleteDoubleQuotes: true,
-    firstLineTitles: false
+    decimalSeparator: '.',
+    lineCommentSeparator: '#',
+    firstLineTitles: false,
+    activeWKT: false,
+    WKTTitle: 'wkt',
+    debug: false
   },
 
   _propertiesNames: [],
 
+  // for performance
+  _re: {
+    spaces: /\s+/g,
+    notFloats: /[^0-9., -]/g,
+    notWord: /[^\w]/g
+  },
+
+  _debug: function (msg, data) {
+    if (this.options.debug) {
+      if (msg) console.log(msg);
+      if (data) console.log(data);
+    }
+    return data;
+  },
+
+  _checkOptions: function(opts) {
+    if (this.options.activeWKT && !opts.WKTTitle && !this.options.firstLineTitles) this._debug('WARN: WKTTitle not defined', false);
+    if (this.options.activeWKT && this.options.decimalSeparator != '.') this._debug('WARN: In WKT mode decimalSeparator need to be a dot', false);
+    if (this.options.firstLineTitles && opts.titles) this._debug('WARN: With firstLineTitles titles array not apply', false);
+    if (this.options.fieldSeparator.length != 1) this._debug('WARN: fieldSeparator need to be a single character', false);
+    if (this.options.lineSeparator.length != 1) this._debug('WARN: lineSeparator need to be a single character', false);
+  },
+
   initialize: function (csv, options) {
     this._propertiesNames = [];
     L.Util.setOptions (this, options);
+    this._checkOptions(options);
     L.GeoJSON.prototype.initialize.call (this, csv, options);
   },
 
   addData: function (data) {
     if (typeof data === 'string') {
-      //leemos titulos
-      var titulos = this.options.titles;
+      data = this._csv2array(data);
+      // read titles
       if (this.options.firstLineTitles) {
-        data = data.split(this.options.lineSeparator);
-        if (data.length < 2) return;
-        titulos = data[0];
+        this.options.titles = data[0];
         data.splice(0,1);
-        data = data.join(this.options.lineSeparator);
-        titulos = titulos.trim().split(this.options.fieldSeparator);
-        for (var i=0; i<titulos.length; i++) {
-          titulos[i] = this._deleteDoubleQuotes(titulos[i]);
-        }
-        this.options.titles = titulos;
       }
-      //generamos _propertiesNames
-      for (var i=0; i<titulos.length; i++) {
-         var prop = titulos[i].toLowerCase().replace(/[^\w ]+/g,'').replace(/ +/g,'_');
+      // fill _propertiesNames
+      for (var i=0; i<this.options.titles.length; i++) {
+         var prop = this.options.titles[i].toLowerCase().replace(this._re.spaces,'_').replace(this._re.notWord,'');
          if (prop == '' || prop == '_') prop = 'prop-'+i;
          this._propertiesNames[i] = prop;
       }
-      //convertimos los datos a geoJSON
+      // convert data to JSON
       data = this._csv2json(data);
     }
     return L.GeoJSON.prototype.addData.call (this, data);
@@ -82,61 +102,142 @@ L.GeoCSV = L.GeoJSON.extend({
     return title;
   },
 
-  _deleteDoubleQuotes: function (cadena) {
-    if (this.options.deleteDoubleQuotes) cadena = cadena.trim().replace(/^"/,"").replace(/"$/,"");
-    return cadena;
-  },
-
-  // from https://stackoverflow.com/questions/1293147/example-javascript-code-to-parse-csv-data
   _csv2array: function (str) {
     var arr = [];
     var quote = false;
+    var comment = false;
     for (var row = col = c = 0; c < str.length; c++) {
-        var cc = str[c], nc = str[c+1];
-        arr[row] = arr[row] || [];
-        arr[row][col] = arr[row][col] || '';
+      var cc = str[c], nc = str[c+1];
+      arr[row] = arr[row] || [];
+      arr[row][col] = arr[row][col] || '';
 
-        if (cc == '"' && quote && nc == '"') { arr[row][col] += cc; ++c; continue; }  
-        if (cc == '"') { quote = !quote; continue; }
-        if (cc == this.options.fieldSeparator && !quote) { ++col; continue; }
-        if (cc == '\r' && nc == this.options.lineSeparator && !quote) { ++row; col = 0; ++c; continue; }
-        if (cc == this.options.lineSeparator && !quote) { ++row; col = 0; continue; }
-        if (cc == '\r' && !quote) { ++row; col = 0; continue; }
+      if (cc == this.options.lineCommentSeparator && !quote) { comment=true; continue; }
+      if (cc == '"' && quote && nc == '"') { arr[row][col] += cc; ++c; continue; }  
+      if (cc == '"') { quote = !quote; continue; }
+      if (cc == this.options.fieldSeparator && !quote) { ++col; continue; }
+      if (cc == '\r' && nc == this.options.lineSeparator && !quote) { ++row; col = 0; ++c; comment=false; continue; }
+      if (cc == this.options.lineSeparator && !quote) { ++row; col = 0; comment=false; continue; }
+      if (cc == '\r' && !quote) { ++row; col = 0; comment=false; continue; }
 
-        arr[row][col] += cc;
+      if (!comment) arr[row][col] += cc;
     }
     return arr;
   },
 
-  _csv2json: function (csv) {
-    var json = {};
-    json["type"]="FeatureCollection";
-    json["features"]=[];
-    var titulos = this.options.titles;
+  _parseWKTFeature: function (wkt) {
+    wkt = wkt.toUpperCase().replace(this._re.spaces,' ').trim().split('(');
+    var geotype = wkt[0].trim()
+      , groups = wkt.slice(1).join('(').split('),')
+      , feature = this._featureBlank()
+      , coordinates = [];
 
-    csv = this._csv2array(csv);
+    for (var g=0; g<groups.length; g++) {
+      var coordinates_group = groups[g].replace(this._re.notFloats, '').trim().split(',');
+      coordinates[g]=[];
+      for (var i=0; i<coordinates_group.length; i++) {
+        coordinates_group[i]=coordinates_group[i].trim().split(' ');
+        if (coordinates_group[i].length != 2) return feature;
+        var lng=parseFloat(coordinates_group[i][0]);
+        var lat=parseFloat(coordinates_group[i][1]);
+        if (isNaN(lat) || lat > 90 || lat < -90) return feature;
+        if (isNaN(lng) || lng > 180 || lng < -180) return feature;
+        if (groups.length == 1) {
+          coordinates[i]=[lng,lat];
+        } else if (geotype == 'MULTIPOINT') {
+          coordinates[g]=[lng, lat];
+        } else {
+          coordinates[g][i]=[lng, lat];
+        }
+      }
+    }
+    switch (geotype) {
+      case 'POINT':
+        feature["geometry"]["type"]='Point';
+        feature["geometry"]["coordinates"]=coordinates[0];
+        break;
+      case 'LINESTRING':
+        feature["geometry"]["type"]='LineString';
+        feature["geometry"]["coordinates"]=coordinates;
+        break;
+      case 'POLYGON':
+        feature["geometry"]["type"]='Polygon';
+        feature["geometry"]["coordinates"]=[coordinates];
+        break;
+      case 'MULTIPOINT':
+        feature["geometry"]["type"]='MultiPoint';
+        feature["geometry"]["coordinates"]=coordinates;
+        break;
+      case 'MULTILINESTRING':
+        feature["geometry"]["type"]='MultiLineString';
+        feature["geometry"]["coordinates"]=coordinates;
+        break;
+      case 'MULTIPOLYGON':
+        feature["geometry"]["type"]='MultiPolygon';
+        feature["geometry"]["coordinates"]=[coordinates];
+        break;
+      default:
+        this._debug('ERR: '+geotype+' not supported', false);
+    }
+    return feature;
+  }, 
+
+  _featureBlank: function() {
+    return {
+      type: "Feature",
+      geometry: {},
+      properties: {}
+    };
+  },
+
+  _csv2json: function (csv) {
+    var titulos = this.options.titles
+      , json = {
+          type: "FeatureCollection",
+          features: []
+        }
+      , incr = (this.options.firstLineTitles) ? 2 : 1;
+    
 
     for (var num_linea = 0; num_linea < csv.length; num_linea++) {
       var campos = csv[num_linea]
-        , lng = parseFloat(campos[titulos.indexOf(this.options.longitudeTitle)])
-        , lat = parseFloat(campos[titulos.indexOf(this.options.latitudeTitle)]);
-      if (campos.length==titulos.length && lng<180 && lng>-180 && lat<90 && lat>-90) {
-        var feature = {};
-        feature["type"]="Feature";
-        feature["geometry"]={};
-        feature["properties"]={};
-        feature["geometry"]["type"]="Point";
-        feature["geometry"]["coordinates"]=[lng,lat];
-        //propiedades
-        for (var i=0; i<titulos.length; i++) {
-          if (titulos[i] != this.options.latitudeTitle && titulos[i] != this.options.longitudeTitle) {
-            feature["properties"][this._propertiesNames[i]] = this._deleteDoubleQuotes(campos[i]);
-          }
+        , feature = this._featureBlank();
+
+      if ((campos.length == 1) && (campos[0].trim() == '')) {
+        this._debug("INFO: Blank or commented at line "+(num_linea+incr), campos);
+        continue;
+      }
+
+      if (campos.length != titulos.length) {
+        this._debug("ERR: Fields and titles don't match at line "+(num_linea+incr)+':', campos);
+        continue;
+      }
+
+      if (this.options.activeWKT) {
+        feature = this._parseWKTFeature(campos[titulos.indexOf(this.options.WKTTitle)]);
+      } else {
+        var lng = parseFloat(campos[titulos.indexOf(this.options.longitudeTitle)].replace(this.options.decimalSeparator, '.'))
+          , lat = parseFloat(campos[titulos.indexOf(this.options.latitudeTitle)].replace(this.options.decimalSeparator, '.'));
+        if (lng<180 && lng>-180 && lat<90 && lat>-90) {
+          feature["geometry"]["type"]="Point";
+          feature["geometry"]["coordinates"]=[lng,lat];
+        } else {
+          this._debug('ERR: Invalid LatLon pair at line '+(num_linea+incr), false);
         }
+      }
+      if (feature.geometry && feature.geometry.type) {
+        // valid feature
+        for (var i=0; i<titulos.length; i++) {
+          if ((this.options.activeWKT && titulos[i] != this.options.WKTTitle) || 
+          (!this.options.activeWKT && titulos[i] != this.options.latitudeTitle && titulos[i] != this.options.longitudeTitle)) {
+            feature["properties"][this._propertiesNames[i]] = campos[i];
+          }
+      }
         json["features"].push(feature);
-      } 
+      } else {
+        this._debug('ERR: Invalid feature at line '+(num_linea+incr)+':', campos);
+      }
     }
-    return json;
+    return this._debug('INFO: GeoJSON generated', json);
   }
 
 });

@@ -4,7 +4,7 @@
 		<meta charset="UTF-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-		<title>Leaflet.geoCSV: Test de opciones</title>
+		<title>Leaflet.geoCSV: Test WKT</title>
 
       <!-- Leaflet 0.5: https://github.com/CloudMade/Leaflet-->
 		<link rel="stylesheet" href="../../lib/leaflet.css" />
@@ -71,45 +71,44 @@
 		</style>
 	</head>
 	<body>
-
-		<h1><a href="https://github.com/joker-x/Leaflet.geoCSV" title="Repositorio en github">Leaflet.GeoCSV</a>: Load icons from CSV</h1>
-
+		<h1><a href="https://github.com/joker-x/Leaflet.geoCSV" title="Repositorio en github">Leaflet.GeoCSV</a>: Test de WKT</h1>
       <div class="caja">
 		<div id="controles">
-
-			<p>In this example, we load icons and HTML from CSV into the map. We can write full url or relative path. More at <a href="http://leafletjs.com/examples/custom-icons.html">Leaflet documentation</a>.</p>
-
-			<h2>CSV</h2>
-			<textarea id="csv">
-lat;lng;icon;popup
-48.8566;2.3522;https://joker-x.github.io/Leaflet.geoCSV/examples/bankia/marcador-bankia.png;<a href="https://es.wikipedia.org/wiki/Par%C3%ADs">París</a>, capital de Francia
-40.4168;-3.7038;red.png;Madrid, capital de España<br><img src="https://es.wikipedia.org/wiki/Bandera_de_Madrid#/media/Archivo:Bandera_de_la_ciudad_de_Madrid.svg" width="100%" />
-41.9015;12.4608;blue.png;Roma, capital de Italia
-37.9837;23.7293;purple.png;Atenas, capital de Grecia</textarea>
-
-			<h2>Javascript</h2>
+			<p>En esta página puedes cambiar las opciones del plugin y los datos CSV. Al pulsar el botón <i>Cargar datos</i> se aplicarán los cambios y podrás navegar por el mapa de la derecha</p>
+			<h2>Opciones</h2>
 			<textarea id="opciones">
 L.geoCsv(null,{
-  fieldSeparator: ';',
-  firstLineTitles: true,
+  titles: ['Feature', 'Popup'],
+  fieldSeparator: ',',
+  lineSeparator: '\n',
+  activeWKT: true,
+  WKTTitle: 'Feature',
+  debug: true,
   onEachFeature: function (feature, layer) {
-    layer.bindPopup(feature.properties["popup"]);
-  },
-  pointToLayer: function (feature, latlng) {
-    return L.marker(latlng, {
-      icon:L.icon({
-        iconUrl: feature.properties['icon'],
-        shadowUrl: 'shadow.png',
-        iconSize: [25,41],
-        shadowSize:   [41, 41],
-        shadowAnchor: [13, 20]
-      })
-    });
+    var popup = '';
+    for (var clave in feature.properties) {
+      var title = geo_csv.getPropertyTitle(clave);
+      popup += '<b>'+title+'</b><br />'+feature.properties[clave]+'<br /><br />';
+    }
+    layer.bindPopup(popup);
   }
 });</textarea>
+			<h2>CSV</h2>
+			<textarea id="csv">
+# Geometry primitives (2D)
+"POINT (2.3522 48.8566)","Point París"
+"LINESTRING (-3.7038 40.4168,38 56)","LineString"
+"POLYGON (-3.707721 40.412752,2.3522 48.8566,12.4608 41.9015,-3.707721 40.412752)","Polygon"
 
-			<button id="cargar">Load data</button>
+# Multipart geometries (2D)
+"MULTIPOINT (30 50, 40 30)","MultiPoint format 1"
+"MULTIPOINT ((38 56), (39 59))","MultiPoint format 2"
+"MULTILINESTRING ((-2 30.4168,38 56),(38 50, -1 40))","MultiLineString"
+"MULTIPOLYGON (((-10.3 45,2.3522 48.8566,12.4608 41.9015,-3.707721 40.412752)),((-3.7038 40.4168,4 30, 38 56,-3.7038 40.4168)))","MultiPolygon"
 
+# Error latitude
+"POINT (230.7293 37.9837)","Atenas, capital de Grecia"</textarea>
+			<button id="cargar">Cargar datos</button>
 		</div>
 		</div>
 		<div class="caja">

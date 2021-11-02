@@ -97,8 +97,8 @@ var capaGeoCSV = L.geoCsv (getFromURL(), {
     var popup = f.properties.popup;
     l.bindPopup(popup);
   },
-  lineSeparator: '||',
-  fieldSeparator: ';;'
+  lineSeparator: '|',
+  fieldSeparator: ';'
 });
 
 //lo añadimos al mapa
@@ -106,7 +106,7 @@ mapa.addLayer(capaGeoCSV);
 			</textarea>
 			<h2>Enlaces de ejemplo</h2>
 			<ul>			
-			<li><a href="?csv=48.8566;;2.3522;;París, capital de Francia||40.4168;;-3.7038;;Madrid, capital de España||41.9015;;12.4608;;Roma, capital de Italia||37.9837;;23.7293;;Atenas, capital de Grecia">http://website.com/from-url/?csv=48.8566;;2.3522;;París, capital de Francia||40.4168;;-3.7038;;Madrid, capital de España||41.9015;;12.4608;;Roma, capital de Italia||37.9837;;23.7293;;Atenas, capital de Grecia</a></li>
+			<li><a href="?csv=48.8566;2.3522;París, capital de Francia|40.4168;-3.7038;Madrid, capital de España|41.9015;12.4608;Roma, capital de Italia|37.9837;23.7293;Atenas, capital de Grecia">https://website.com/from-url/?csv=48.8566;2.3522;París, capital de Francia|40.4168;-3.7038;Madrid, capital de España|41.9015;12.4608;Roma, capital de Italia|37.9837;23.7293;Atenas, capital de Grecia</a></li>
 			</ul>
 			<h2>Aviso</h2>
 			Este código es vulnerable a ataques XSS.
@@ -159,8 +159,11 @@ var capaGeoCSV = L.geoCsv (getFromURL(), {
     var popup = f.properties.popup;
     l.bindPopup(popup);
   },
-  lineSeparator: '||',
-  fieldSeparator: ';;'
+  lineSeparator: '|',
+  fieldSeparator: ';',
+  titles: ['lat', 'lng', 'popup'],
+  firstLineTitles: false,
+  debug: true
 });
 
 //lo añadimos al mapa
