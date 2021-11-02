@@ -24,8 +24,8 @@ L.GeoCSV = L.GeoJSON.extend({
   // default values for options
   options: {
     titles: ['lat', 'lng', 'popup'],
-	latitudeTitle: 'lat',
-	longitudeTitle: 'lng',
+    latitudeTitle: 'lat',
+    longitudeTitle: 'lng',
     fieldSeparator: ',',
     lineSeparator: '\n',
     decimalSeparator: '.',
@@ -40,9 +40,9 @@ L.GeoCSV = L.GeoJSON.extend({
 
   // for performance
   _re: {
-    spaces: new RegExp('\s+', 'g'),
-    notFloats: new RegExp('[^0-9., -]', 'g'),
-    notWord: new RegExp('[^\w]+','g')
+    spaces: /\s+/g,
+    notFloats: /[^0-9., -]/g,
+    notWord: /[^\w]/g
   },
 
   _debug: function (msg, data) {
@@ -215,23 +215,23 @@ L.GeoCSV = L.GeoJSON.extend({
       if (this.options.activeWKT) {
         feature = this._parseWKTFeature(campos[titulos.indexOf(this.options.WKTTitle)]);
       } else {
-	    var lng = parseFloat(campos[titulos.indexOf(this.options.longitudeTitle)].replace(this.options.decimalSeparator, '.'))
-	      , lat = parseFloat(campos[titulos.indexOf(this.options.latitudeTitle)].replace(this.options.decimalSeparator, '.'));
-	    if (lng<180 && lng>-180 && lat<90 && lat>-90) {
-	      feature["geometry"]["type"]="Point";
-	      feature["geometry"]["coordinates"]=[lng,lat];
+        var lng = parseFloat(campos[titulos.indexOf(this.options.longitudeTitle)].replace(this.options.decimalSeparator, '.'))
+          , lat = parseFloat(campos[titulos.indexOf(this.options.latitudeTitle)].replace(this.options.decimalSeparator, '.'));
+        if (lng<180 && lng>-180 && lat<90 && lat>-90) {
+          feature["geometry"]["type"]="Point";
+          feature["geometry"]["coordinates"]=[lng,lat];
         } else {
           this._debug('ERR: Invalid LatLon pair at line '+(num_linea+incr), false);
         }
       }
       if (feature.geometry && feature.geometry.type) {
         // valid feature
-	    for (var i=0; i<titulos.length; i++) {
-	      if ((this.options.activeWKT && titulos[i] != this.options.WKTTitle) || 
+        for (var i=0; i<titulos.length; i++) {
+          if ((this.options.activeWKT && titulos[i] != this.options.WKTTitle) || 
           (!this.options.activeWKT && titulos[i] != this.options.latitudeTitle && titulos[i] != this.options.longitudeTitle)) {
-	        feature["properties"][this._propertiesNames[i]] = campos[i];
-	      }
-	    }
+            feature["properties"][this._propertiesNames[i]] = campos[i];
+          }
+      }
         json["features"].push(feature);
       } else {
         this._debug('ERR: Invalid feature at line '+(num_linea+incr)+':', campos);
