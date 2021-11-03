@@ -123,13 +123,15 @@ var bankias = L.geoCsv(null, {
 			})
 		});
 	},
-	firstLineTitles: true
+	firstLineTitles: true,
+	debug: true,
+	fieldSeparator: ';'
 });
 
 $.ajax ({
 	type:'GET',
 	dataType:'text',
-	url:'bankias.csv',
+	url:'https://joker-x.github.io/Leaflet.geoCSV/examples/bankia/bankias.csv',
    error: function() {
      alert('No se pudieron cargar los datos');
    },
