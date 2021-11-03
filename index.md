@@ -9,7 +9,7 @@ Leaflet GeoCSV
 News
 ----
 
-* Add WKT support for POINT, LINESTRING and POLYGON in [development branch](https://github.com/joker-x/Leaflet.geoCSV/tree/development). 
+* Add WKT support for POINT, LINESTRING, POLYGON, MULTIPOINT, MULTILINESTRING and MULTIPOLYGON
 See [test example](https://joker-x.github.io/Leaflet.geoCSV/examples/wkt/index.html)
 
 
@@ -23,7 +23,7 @@ plain-text form. Virtually all spreadsheet and database software can import/expo
 containing the same information. This plugin provides the ability to download a CSV file that is then parsed into a
 GeoJSON document on the client side, saving you bandwidth and reducing load times. In similar scenarios, we recommend
 using GeoCSV together with [MarkerCluster](//github.com/danzel/leaflet.markercluster) as in the
-[Bankia Offices Map Example](//joker-x.github.com/Leaflet.geoCSV/example/bankia/index.html).
+[Bankia Offices Map Example](//joker-x.github.io/Leaflet.geoCSV/examples/bankia/index.html).
 
 
 Download
@@ -92,21 +92,21 @@ Examples
 
 Complete examples can be found within the `examples` subdirectory of the repository:
 
-*  [Configuration Options Test](//joker-x.github.com/Leaflet.geoCSV/examples/options-test/index.html)
+*  [Configuration Options Test](//joker-x.github.io/Leaflet.geoCSV/examples/options-test/index.html)
 
-*  [Load custom icons from CSV](//joker-x.github.com/Leaflet.geoCSV/examples/icons/index.html)
+*  [Load custom icons from CSV](//joker-x.github.io/Leaflet.geoCSV/examples/icons/index.html)
 
-*  [Data Passing Through the URL](//joker-x.github.com/Leaflet.geoCSV/examples/from-url/index.html)
+*  [Data Passing Through the URL](//joker-x.github.io/Leaflet.geoCSV/examples/from-url/index.html)
 
-*  [Bankia Offices (GeoCSV + MarkerCluster)](//joker-x.github.com/Leaflet.geoCSV/examples/bankia/index.html)
+*  [Bankia Offices (GeoCSV + MarkerCluster)](//joker-x.github.io/Leaflet.geoCSV/examples/bankia/index.html)
 
-*  [WKT Test](//joker-x.github.com/Leaflet.geoCSV/examples/wkt/index.html)
+*  [WKT Test](//joker-x.github.io/Leaflet.geoCSV/examples/wkt/index.html)
 
 ¿Por qué GeoCSV?
 ----------------
 
 *  **Comodidad**: CSV es un formato abierto muy simple para representar un conjunto de datos en forma de tabla. Cualquier hoja de cálculo, por ejemplo, puede importar/exportar fácilmente a este formato.
-*  **Por razones de peso**: Cuando se trata de representar un conjunto grande de marcadores en un mapa, el fichero geoJSON generado puede ocupar 4 veces más que la misma información contenida en un CSV. Este plugin permite que transmitas el fichero CSV y realiza la conversión al geoJSON equivalente en el lado del cliente, ahorrando ancho de banda a tu servidor y disminuyendo el tiempo de carga de tu página. En este escenario recomendamos usarlo junto al fantástico plugin [MarkerCluster](https://github.com/danzel/Leaflet.markercluster). Ejemplo: [Mapa de las sucursales de Bankia: GeoCSV+MarkerCluster](http://joker-x.github.com/Leaflet.geoCSV/example/bankia/index.html)
+*  **Por razones de peso**: Cuando se trata de representar un conjunto grande de marcadores en un mapa, el fichero geoJSON generado puede ocupar 4 veces más que la misma información contenida en un CSV. Este plugin permite que transmitas el fichero CSV y realiza la conversión al geoJSON equivalente en el lado del cliente, ahorrando ancho de banda a tu servidor y disminuyendo el tiempo de carga de tu página. En este escenario recomendamos usarlo junto al fantástico plugin [MarkerCluster](https://github.com/danzel/Leaflet.markercluster). Ejemplo: [Mapa de las sucursales de Bankia: GeoCSV+MarkerCluster](//joker-x.github.io/Leaflet.geoCSV/example/bankia/index.html)
 
 Descarga
 --------
@@ -183,13 +183,13 @@ Ejemplos
 
 En el subdirectorio *example* se encuentran ejemplos completos del uso del plugin:
 
-*  [Test dinámico de las opciones de configuración](//joker-x.github.com/Leaflet.geoCSV/examples/options-test/index.html)
+*  [Test dinámico de las opciones de configuración](//joker-x.github.io/Leaflet.geoCSV/examples/options-test/index.html)
 
 *  [Cargando iconos personalizados desde el CSV](//joker-x.github.com/Leaflet.geoCSV/examples/icons/index.html)
 
-*  [Pasando los datos a través de la URL](//joker-x.github.com/Leaflet.geoCSV/examples/from-url/index.html)
+*  [Pasando los datos a través de la URL](//joker-x.github.io/Leaflet.geoCSV/examples/from-url/index.html)
 
-*  [Mapa de las sucursales de Bankia: GeoCSV+MarkerCluster](//joker-x.github.com/Leaflet.geoCSV/examples/bankia/index.html)
+*  [Mapa de las sucursales de Bankia: GeoCSV+MarkerCluster](//joker-x.github.io/Leaflet.geoCSV/examples/bankia/index.html)
 
-*  [Test de WKT](//joker-x.github.com/Leaflet.geoCSV/examples/wkt/index.html)
+*  [Test de WKT](//joker-x.github.io/Leaflet.geoCSV/examples/wkt/index.html)
 
